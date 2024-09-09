@@ -1,0 +1,10 @@
+{
+  "users": [
+    {
+      "id": "2fcb",
+      "username": "noga",
+      "password": "noga",
+      "role": "customer"
+    }
+  ]
+}
