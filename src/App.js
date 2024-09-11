@@ -1,29 +1,28 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import LoginPage from './components/LoginPage';
-import RegisterPage from './components/RegisterPage';
-import HomePage from './components/HomePage';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-import './style/style.css';
-
-/**
- * The App component is the main entry point for the React application.
- * It defines the routing structure using react-router-dom.
- */
 function App() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    // קריאה ל-API לקבלת המשתמשים
+    axios.get('http://localhost:5000/users')
+      .then(response => {
+        setUsers(response.data);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the users!', error);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <Routes>
-        {/* Route for the login page */}
-        <Route path="/login" element={<LoginPage />} />
-        
-        {/* Route for the registration page */}
-        <Route path="/register" element={<RegisterPage />} />
-                {/* Route for the home page with username parameter */}
-        <Route path="/home/:username" element={<HomePage />} />
-         
-  
-      </Routes>
+      <h1>Users List</h1>
+      <ul>
+        {users.map(user => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }
